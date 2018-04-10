@@ -24,13 +24,11 @@ The **Control Record** is used to track the state of a service domain, and like 
 
 So to summarize the above:
 
-```
 **Functional Pattern** ==> **Generic Artifact Type** ==> **Behavior Qualifier**
 
 **Functional Pattern** + **Asset Type** = **Service Domain**
 
 **Generic Artifact Type** + **Asset Type** + (optional)**Behavior Qualifier** = **Control Record**
-```
 
 ## Architecture
 
