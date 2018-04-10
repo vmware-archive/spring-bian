@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.pivotal.spring</groupId>
+	<artifactId>bian-samples</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+	<name>spring-bian-samples</name>
+	<description>Spring Java Core BIAN Library Samples</description>
+
+	<modules>
+		<module>testservice</module>
+	</modules>
+
+	<parent>
+		<groupId>io.pivotal.spring</groupId>
+		<artifactId>bian</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.pivotal.spring</groupId>
+			<artifactId>bian-core</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.pivotal.spring.cloud</groupId>
+			<artifactId>spring-cloud-services-starter-circuit-breaker</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>
