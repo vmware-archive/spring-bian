@@ -14,21 +14,20 @@ Before diving into the library architecture, it helps to understand two key conc
 
 ### Service Domain
 
-The BIAN Service Landscape defines discrete areas of responsibility known as service domains.  A *Service Domain* is a combination of a *Functional Pattern* and an *Asset Type*.  For instance, using the functional pattern 'Registry' with the asset type 'Product' would yield a 'Product Registry' service domain, which could be used to manage a product catalog.  If we instead changed the asset type to 'Device', we would have a 'Device Registry' service domain that could be used to authorize services on a mobile device.  
+The BIAN Service Landscape defines discrete areas of responsibility known as service domains.  A **Service Domain** is a combination of a **Functional Pattern** and an **Asset Type**.  For instance, using the functional pattern 'Registry' with the asset type 'Product' would yield a 'Product Registry' service domain, which could be used to manage a product catalog.  If we instead changed the asset type to 'Device', we would have a 'Device Registry' service domain that could be used to authorize services on a mobile device.  
 
 ### Control Record
 
-The *Control Record* is used to track the state of a service domain, and like the service domain is derived from the functional pattern and asset type.  However, in a control record, the functional pattern is represented by the *Generic Artifact Type*.  There is a one-to-one correlation between functional patterns and generic artifact types.  The control record goes one step further in delineating between specific service domain operations by introducing an additional parameter called the *Behavior Qualifier*, which, like generic artifact types, have a one-to-one correlation with functional patterns.
+The **Control Record** is used to track the state of a service domain, and like the service domain is derived from the functional pattern and asset type.  However, in a control record, the functional pattern is represented by the **Generic Artifact Type**.  There is a one-to-one correlation between functional patterns and generic artifact types.  The control record goes one step further in delineating between specific service domain operations by introducing an additional parameter called the **Behavior Qualifier**, which, like generic artifact types, have a one-to-one correlation with functional patterns.
 
 ### BIAN Summary
 
 So to summarize the above:
 
-*Functional Pattern* ==> *Generic Artifact Type*
-*Functional Pattern* ==> *Behavior Qualifier*
+**Functional Pattern** ==> **Generic Artifact Type** ==> **Behavior Qualifier**
 
-*Functional Pattern* + *Asset Type* = *Service Domain*
-*Generic Artifact Type* + *Asset Type* + (optional)*Behavior Qualifier* = *Control Record*
+**Functional Pattern** + **Asset Type** = **Service Domain**
+**Generic Artifact Type** + **Asset Type** + (optional)**Behavior Qualifier** = **Control Record**
 
 ## Architecture
 
