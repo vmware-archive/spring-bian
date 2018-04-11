@@ -107,15 +107,98 @@ This will compile, test and copy the Spring BIAN library to your local maven rep
   * ModelMapper - DTO data mapping
 2. Add the bian-core library to your dependencies (io.pivotal.spring.bian-core)
 
-   **pom.xml**
+   **pom.xml**:
 ```
 <dependency>
         <groupId>io.pivotal.spring</groupId>
         <artifactId>bian-core</artifactId>
-        <version>${revision}</version>
+        <version>0.0.1-SNAPSHOT</version>
 </dependency>
-```  
+```
+3. Optionally add cloud services support to you application for service registry and circuit breaker:
+
+   **Application.java**:
+```
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableCircuitBreaker
+```
 3. Identify the BIAN functional pattern of the service domain, and create a RESTful service that subclasses the appropriate BIAN functional service (io.pivotal.spring.bian.service.\*).  By subclassing the functional service, your service automatically inherits a host of common functionality like RESTful endpoints, messaging, error handling, in addition to BIAN functional pattern specific service operation handling.
-1. Identify the payload structure of the service domain, both for internal field usage and external data standard mappings
-1. Create data mappings for API input to control record, control record to API output, and control record to service back-end.
+
+   **MyLocationServiceEndpoint.java**:
+```
+@RestController
+@RequestMapping("/v1/location")
+public class LocationServiceEndpoint extends RegisterServiceController {
+  ...
+}
+
+```
+4. Generate service operation stub methods.  Your IDE should flag that certain virtual methods within the new service domain subclass are required to be defined.  Allow it to automatically create stubs for these methods.  The methods requiring definition are dependent on the functional pattern being subclassed.
+```
+...
+@Override
+public BianApiResponse doActivate(Object request) {
+  // TODO Auto-generated method stub
+  return null;
+}
+
+@Override
+public BianApiResponse doConfigure(Object request) {
+  // TODO Auto-generated method stub
+  return null;
+}
+...
+
+```
+5. Identify the payload structure of the service domain, both for internal field usage and external data standard mappings.  Optionally create a control record for your functional pattern / asset type combination.
+
+   **LocationDirectory.java**:
+```
+public class LocationDirectory extends ControlRecord<Location, Directory, Property> {
+	public LocationDirectory() throws InstantiationException, IllegalAccessException {
+		super(Location.class, Directory.class, Property.class);
+	}
+
+	public LocationDirectory(Location location, Directory directory, Property property) {
+		super(location, directory, property);
+	}
+}
+```
+6. Create data mappings for API input to control record, control record to API output, and control record to service back-end.
+```
+public LocationServiceEndpoint() throws InstantiationException, IllegalAccessException {
+  super(new LocationDirectory());
+  modelMapper.addMappings(new PropertyMap<FreeGeoIpLocation, IfxLocation>() {
+    @Override
+    protected void configure() {
+      map().setIpAddress(source.getIp());
+      map().getCustId().getPersonalIdent().getContactInfo().getPostAddr().setCity(source.getCity());
+      map().getCustId().getPersonalIdent().getContactInfo().getPostAddr().setCountry(source.getCountryCode());
+      map().getCustId().getPersonalIdent().getContactInfo().getPostAddr().setStateProv(source.getRegionCode());
+      map().getCustId().getPersonalIdent().getContactInfo().getPostAddr().setPostalCode(source.getZipCode());
+    }
+  });
+}
+...
+public BianApiResponse doRetrieve(Object request) {
+...
+  modelMapper.map(backendData, response);
+...
+}
+```
 1. Implement the stubbed-out service operation calls by making any necessary back-end native calls.
+```
+@Override
+public BianApiResponse doRetrieve(Object request) {
+  BianApiRequest requestDto = (BianApiRequest)request;
+  LocationApiResponse response = new LocationApiResponse();
+  response.setExecutionTimestamp(System.currentTimeMillis());
+  response.setRequest(requestDto);
+  FreeGeoIpLocation geoIpLocation = geoIpService.getGeoIpLocation(requestDto.getReferenceId());
+  IfxLocation ifxLocation = new IfxLocation();
+  modelMapper.map(geoIpLocation, ifxLocation);
+  response.setLocation(ifxLocation);
+  return response;
+}
+```
