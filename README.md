@@ -105,7 +105,7 @@ This will compile, test and copy the Spring BIAN library to your local maven rep
   * Swagger2 - API documentation
   * Jackson - data mapping
   * ModelMapper - DTO data mapping
-1. Add the bian-core library to your dependencies (io.pivotal.spring.bian-core)
+2. Add the bian-core library to your dependencies (io.pivotal.spring.bian-core)
    **pom.xml**
 ```
 <dependency>
@@ -114,7 +114,7 @@ This will compile, test and copy the Spring BIAN library to your local maven rep
         <version>${revision}</version>
 </dependency>
 ```  
-1. Identify the BIAN functional pattern of the service domain, and create a RESTful service that subclasses the appropriate BIAN functional service (io.pivotal.spring.bian.service.\*).  By subclassing the functional service, your service automatically inherits a host of common functionality like RESTful endpoints, messaging, error handling, in addition to BIAN functional pattern specific service operation handling.
+3. Identify the BIAN functional pattern of the service domain, and create a RESTful service that subclasses the appropriate BIAN functional service (io.pivotal.spring.bian.service.\*).  By subclassing the functional service, your service automatically inherits a host of common functionality like RESTful endpoints, messaging, error handling, in addition to BIAN functional pattern specific service operation handling.
 1. Identify the payload structure of the service domain, both for internal field usage and external data standard mappings
 1. Create data mappings for API input to control record, control record to API output, and control record to service back-end.
 1. Implement the stubbed-out service operation calls by making any necessary back-end native calls.
