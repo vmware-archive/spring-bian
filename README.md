@@ -106,6 +106,7 @@ This will compile, test and copy the Spring BIAN library to your local maven rep
   * Jackson - data mapping
   * ModelMapper - DTO data mapping
 2. Add the bian-core library to your dependencies (io.pivotal.spring.bian-core)
+
    **pom.xml**
 ```
 <dependency>
