@@ -36,43 +36,85 @@ The Spring BIAN library implements a BIAN service domain wrapper that acts as an
 
 ![Spring BIAN Service Domain](docs/Spring-BIANServiceDomain.png)
 
-Components in dark yellow are provided by the library, light yellow are provided by the developer, and blue are provided by the Spring framework.
+Components in blue are provided by the Spring framework, dark yellow are provided by this library, and light yellow are provided by the developer.
 
-### Spring BIAN Library Features
-Features of the library are:
+### Spring components (blue)
 
-- BIAN functional pattern specific service classes
-- BIAN generic artifact classes
-- BIAN behavior qualifier classes
-- A subset of BIAN asset type classes (built as each of the 300+ service domains are implemented)
-- BIAN control record classes
-- A subset of BIAN service domain specific control record classes (built as each of the 300+ service domains are implemented)
-- Common DTO (Data Transfer Object) methodology classes for mapping between API input/output and internal control record representation
+- RESTful microservice (via Spring Boot)
+- Distributed central service configuration (via Spring Config Server)
+- Dynamic service registration and resolution (via Eureka Registry Server)
+- Service-to-service load balancing (via Ribbon)
+- Service outage quick failover, state tracking and reporting (via Circuit Breaker)
+
+### Spring BIAN library components (dark yellow)
+
+- BIAN functional pattern specific service classes (Functional Pattern)
+- BIAN asset type base classes (Asset Type)
+- BIAN generic artifact classes (Generic Artifact)
+- BIAN behavior qualifier classes (Behavior Qualifier)
+- BIAN control record classes (Control Record)
+- BIAN service domain specific control record classes
+- Common DTO (Data Transfer Object) methodology classes for data mapping between front facing API and internal control record
+- Common DTO (Data Transfer Object) methodology classes for data mapping between internal control record and native backend payloads
 - Service Operation handling with default handlers for functional pattern services per BIAN specification.
-- Service exception handling
-- Distributed central service configuration
-- Dynamic service registration
-- Service-to-service load balancing
-- Service outage quick failover and reporting
-- Service status and BIAN information endpoints
 - RESTful method to BIAN service operation mapper and handling
+- Service exception handling
+- Service status and BIAN information endpoints
 
+### Developer provided components (light yellow)
+
+- Service domain service operation handlers
+- DTO mapping rules for front facing consumer API
+- DTO mapping rules for backend native API's
 
 
 ## Usage
 
-The repository contains several BIAN libraries and a set of examples:
+The repository contains the following modules:
 
-- spring-bian-core - the core...
-- spring-bian-service - the..
-- spring-bian-samples - the...
+- spring-bian-core - the core Spring BIAN library
+- spring-bian-samples - example Spring BIAN library clients
+
+### Installing the library
+
+After cloning the repository to a local directory, install the library by executing the following from within the BIAN library folder
 
 ```
-mvn clean install
+mvn clean install -DskipITs
 ```
 
+This will compile, test and copy the Spring BIAN library to your local maven repository.
 
-1. Identify the BIAN functional pattern of the service domain, and create a RESTful service that subclasses the appropriate BIAN functional service.  By subclassing the functional service, your service automatically inherits a host of common functionality like RESTful endpoints, messaging, error handling, in addition to BIAN functional pattern specific service operation handling.
+### Using the library
+
+1. Create a basic Spring Boot RESTful application.  [Spring Initializr](http://start.spring.io/) is a helpful tool for this.  Here are some common modules to add to your project:
+  * Web - web application framework
+  * Config Client - spring config server client
+  * Eureka Discovery - service registration and discovery
+  * Hystrix - circuit breaker
+  * Sleuth - distributed tracing
+  * Actuator - application monitoring and management
+
+  Optional modules:
+
+  * JPA - persistence API
+  * Persistence engine (MySQL, JDBC, etc)
+
+  External dependencies:
+
+  * Swagger2 - API documentation
+  * Jackson - data mapping
+  * ModelMapper - DTO data mapping
+
+1. Add the bian-core library to your dependencies (io.pivotal.spring.bian-core)
+```pom.xml
+<dependency>
+        <groupId>io.pivotal.spring</groupId>
+        <artifactId>bian-core</artifactId>
+        <version>${revision}</version>
+</dependency>
+```  
+1. Identify the BIAN functional pattern of the service domain, and create a RESTful service that subclasses the appropriate BIAN functional service (io.pivotal.spring.bian.service.\*).  By subclassing the functional service, your service automatically inherits a host of common functionality like RESTful endpoints, messaging, error handling, in addition to BIAN functional pattern specific service operation handling.
 1. Identify the payload structure of the service domain, both for internal field usage and external data standard mappings
 1. Create data mappings for API input to control record, control record to API output, and control record to service back-end.
 1. Implement the stubbed-out service operation calls by making any necessary back-end native calls.
