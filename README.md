@@ -95,19 +95,19 @@ This will compile, test and copy the Spring BIAN library to your local maven rep
   * Sleuth - distributed tracing
   * Actuator - application monitoring and management
 
-  Optional modules:
+   Optional modules:
 
   * JPA - persistence API
   * Persistence engine (MySQL, JDBC, etc)
 
-  External dependencies:
+   External dependencies:
 
   * Swagger2 - API documentation
   * Jackson - data mapping
   * ModelMapper - DTO data mapping
-
 1. Add the bian-core library to your dependencies (io.pivotal.spring.bian-core)
-```pom.xml
+   **pom.xml**
+```
 <dependency>
         <groupId>io.pivotal.spring</groupId>
         <artifactId>bian-core</artifactId>
