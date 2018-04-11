@@ -123,7 +123,7 @@ This will compile, test and copy the Spring BIAN library to your local maven rep
 @EnableDiscoveryClient
 @EnableCircuitBreaker
 ```
-3. Identify the BIAN functional pattern of the service domain, and create a RESTful service that subclasses the appropriate BIAN functional service (io.pivotal.spring.bian.service.\*).  By subclassing the functional service, your service automatically inherits a host of common functionality like RESTful endpoints, messaging, error handling, in addition to BIAN functional pattern specific service operation handling.
+4. Identify the BIAN functional pattern of the service domain, and create a RESTful service that subclasses the appropriate BIAN functional service (io.pivotal.spring.bian.service.\*).  By subclassing the functional service, your service automatically inherits a host of common functionality like RESTful endpoints, messaging, error handling, in addition to BIAN functional pattern specific service operation handling.
 
    **MyLocationServiceEndpoint.java**:
 ```
@@ -134,7 +134,7 @@ public class LocationServiceEndpoint extends RegisterServiceController {
 }
 
 ```
-4. Generate service operation stub methods.  Your IDE should flag that certain virtual methods within the new service domain subclass are required to be defined.  Allow it to automatically create stubs for these methods.  The methods requiring definition are dependent on the functional pattern being subclassed.
+5. Generate service operation stub methods.  Your IDE should flag that certain virtual methods within the new service domain subclass are required to be defined.  Allow it to automatically create stubs for these methods.  The methods requiring definition are dependent on the functional pattern being subclassed.
 ```
 ...
 @Override
@@ -151,7 +151,7 @@ public BianApiResponse doConfigure(Object request) {
 ...
 
 ```
-5. Identify the payload structure of the service domain, both for internal field usage and external data standard mappings.  Optionally create a control record for your functional pattern / asset type combination.
+6. Identify the payload structure of the service domain, both for internal field usage and external data standard mappings.  Optionally create a control record for your functional pattern / asset type combination.
 
    **LocationDirectory.java**:
 ```
@@ -165,7 +165,7 @@ public class LocationDirectory extends ControlRecord<Location, Directory, Proper
 	}
 }
 ```
-6. Create data mappings for API input to control record, control record to API output, and control record to service back-end.
+7. Create data mappings for API input to control record, control record to API output, and control record to service back-end.
 ```
 public LocationServiceEndpoint() throws InstantiationException, IllegalAccessException {
   super(new LocationDirectory());
@@ -187,7 +187,7 @@ public BianApiResponse doRetrieve(Object request) {
 ...
 }
 ```
-1. Implement the stubbed-out service operation calls by making any necessary back-end native calls.
+8. Implement the stubbed-out service operation calls by making any necessary back-end native calls.
 ```
 @Override
 public BianApiResponse doRetrieve(Object request) {
